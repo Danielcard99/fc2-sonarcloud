@@ -1,17 +1,6 @@
 package main
 
-import "fmt"
-
-func main() {
-	fmt.Println(sum(2, 2))
-	fmt.Println(sub(2, 2))
-	fmt.Println(div(2, 2))
-	fmt.Println(mod(2, 2))
-	fmt.Println(pow(2, 2))
-	fmt.Println(sqrt(2))
-	fmt.Println(cube(2))
-	fmt.Println(square(2))
-}
+import "math"
 
 func sum(a int, b int) int {
 	return a + b
@@ -22,19 +11,25 @@ func sub(a int, b int) int {
 }
 
 func div(a int, b int) int {
+	if b == 0 {
+		return 0 // prevenção de divisão por zero
+	}
 	return a / b
 }
 
 func mod(a int, b int) int {
+	if b == 0 {
+		return 0
+	}
 	return a % b
 }
 
 func pow(a int, b int) int {
-	return a ^ b
+	return int(math.Pow(float64(a), float64(b)))
 }
 
 func sqrt(a int) int {
-	return a * a
+	return int(math.Sqrt(float64(a)))
 }
 
 func cube(a int) int {
@@ -43,4 +38,34 @@ func cube(a int) int {
 
 func square(a int) int {
 	return a * a
+}
+
+func Add(a, b int) int {
+	return a + b
+}
+
+func Sub(a, b int) int {
+	return a - b
+}
+
+func Mul(a, b int) int {
+	return a * b
+}
+
+func Div(a, b int) int {
+	if b == 0 {
+		return 0
+	}
+	return a / b
+}
+
+func IsEven(n int) bool {
+	return n%2 == 0
+}
+
+func Max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
 }
