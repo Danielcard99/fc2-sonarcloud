@@ -1,4 +1,5 @@
 name: ci-sonarcloud
+
 on:
   pull_request:
     branches:
@@ -6,19 +7,25 @@ on:
 
 jobs:
   sonarqube:
-    name: SonarQube
+    name: SonarCloud
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-go@v5
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
         with:
-          go-version: 1.23
+          go-version: "1.23"
           cache: false
-      - run: go test -coverprofile=coverage.out
 
-      - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@v6
+      - name: Run tests with coverage
+        run: go test ./... -coverprofile=coverage.out
 
+      - name: Check coverage file
+        run: ls -lh coverage.out
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: https://sonarcloud.io
