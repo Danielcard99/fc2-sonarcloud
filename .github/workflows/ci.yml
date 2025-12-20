@@ -15,13 +15,18 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: "1.25.5"
-          cache: false
 
       - name: Install dependencies
         run: go mod tidy
 
       - name: Run tests with coverage
         run: go test ./... -coverprofile=coverage.out
+
+      - name: Install gocover-cobertura
+        run: go install github.com/t-yuki/gocover-cobertura@latest
+
+      - name: Convert coverage to XML
+        run: $HOME/go/bin/gocover-cobertura < coverage.out > coverage.xml
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarqube-scan-action@v6
