@@ -6,23 +6,29 @@ on:
       - develop
 
 jobs:
-  sonarcloud:
+  run-ci:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.23"
-          cache: false
+          go-version: "1.25.5"
+
+      - name: Install dependencies
+        run: go mod tidy
 
       - name: Run tests with coverage
         run: go test ./... -coverprofile=coverage.out
 
+      - name: Install gocover-cobertura
+        run: go install github.com/t-yuki/gocover-cobertura@latest
+
+      - name: Convert coverage to XML
+        run: $HOME/go/bin/gocover-cobertura < coverage.out > coverage.xml
+
       - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v2
+        uses: SonarSource/sonarqube-scan-action@v6
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
