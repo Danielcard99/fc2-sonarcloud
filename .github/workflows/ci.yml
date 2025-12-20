@@ -16,6 +16,7 @@ jobs:
       - run: go test -coverprofile=coverage.out
 
       - name: SonarQube Scan
-        uses: SonarSource/sonarqube-scan-action@fd88b7d3d1ab2c4e7f9a0e5b7c6a8e1234567890 # SHA completo do v6.0.0+
+        uses: SonarSource/sonarqube-scan-action@v6
+
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
