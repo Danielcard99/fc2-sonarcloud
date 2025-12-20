@@ -5,7 +5,8 @@ on:
       - develop
 
 jobs:
-  run-ci:
+  sonarqube:
+    name: SonarQube
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -13,3 +14,8 @@ jobs:
         with:
           go-version: 1.23
       - run: go test -coverprofile=coverage.out
+
+      - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@v6
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }
