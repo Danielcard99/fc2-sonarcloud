@@ -13,6 +13,7 @@ jobs:
       - uses: actions/setup-go@v5
         with:
           go-version: 1.23
+          cache: false
       - run: go test -coverprofile=coverage.out
 
       - name: SonarQube Scan
@@ -21,4 +22,3 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
-
