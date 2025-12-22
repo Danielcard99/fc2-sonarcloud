@@ -5,6 +5,10 @@ on:
     branches:
       - develop
 
+  push:
+    branches:
+      - develop
+
 jobs:
   run-ci:
     runs-on: ubuntu-latest
