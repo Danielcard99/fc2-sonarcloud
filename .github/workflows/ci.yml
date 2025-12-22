@@ -5,12 +5,18 @@ on:
     branches:
       - develop
 
+  push:
+    branches:
+      - develop
+
 jobs:
   run-ci:
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-go@v5
         with:
@@ -22,13 +28,8 @@ jobs:
       - name: Run tests with coverage
         run: go test ./... -coverprofile=coverage.out
 
-      - name: Install gocover-cobertura
-        run: go install github.com/t-yuki/gocover-cobertura@latest
-
-      - name: Convert coverage to XML
-        run: $HOME/go/bin/gocover-cobertura < coverage.out > coverage.xml
-
       - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v6
+        uses: SonarSource/sonarcloud-github-action@v2
+
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
